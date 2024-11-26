@@ -13,6 +13,11 @@ function param = paramReduce(param, sym)
 p = length(param)/2;
 bTR = contains(sym, 'TR');
 bZ2 = contains(sym, 'Z2');
+bNB = contains(sym, 'NB');
+
+if bNB
+    param(p+1:end) = -param(p+1:end);
+end
 
 if bTR && param(1) < 0 % time reversal symmetry
     param = -param;
@@ -49,4 +54,9 @@ if bZ2 % Z2 symmetry for all X rotation
     end
     
     param(p+1:end) = betas;
+end
+
+
+if bNB % reverse the negative betas
+    param(p+1:end) = -param(p+1:end);
 end

@@ -17,9 +17,9 @@ end
 end
 
 function [out] = kronNz(N,i,j)
-%kronSz makes a kronecker product of N spin-1/2 spin matrices, representing  Sz^i Sz^j.
-% Only the diagonal part are outputed since they are Sz matrices. 
-% N: total number of sites. i,j are the sites where spin matrices are Sz. 
+%kronNz makes an operator representing  |1><1|_i \otimes |1><1|_j.
+% Only the diagonal part are outputed since they are Nz matrices. 
+% N: total number of sites. i,j are the sites where operator are |1><1|. 
 % All other sites have identity spin matrix. 
 
 if i > j
@@ -28,6 +28,12 @@ if i > j
 end
 
 nz = [0; 1];
+
+if i == j
+    out = krons(ones(2^(i-1),1), nz, ones(2^(N-j),1));
+    return
+end
+
 IdL=ones(2^(i-1),1); % i-1 is the number of sites on the left
 IdM=ones(2^(j-i-1),1); % in the middle
 IdR=ones(2^(N-j),1); % on the right
