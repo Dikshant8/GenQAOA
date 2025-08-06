@@ -1,20 +1,22 @@
 function [QAOAhelperfcn, HamObj, HamA, HamB, HamC, HamD, ...
-     EvolA, EvolB, EvolC, EvolD] =  Setup4ExcitedStateQAOA(L, Hobj, n_angles, m_angles)
+     EvolA, EvolB, EvolC, EvolD] =  Setup4ExcitedStateQAOA(L, Hobj, n_angles)
+
+
+
 
 % Inputs:
 %   L         - number of lattice sites
-%   O_k       - operator O_k in computational basis
-%   lambda_k  - target eigenvalue of O_k to isolate
+%   Hobj
 %   n_angles  - Nx2 array of (theta, phi) defining HamD directions
 %   m_angles  - optional Nx2 array for initial product state (default = n_angles)
 %
 % Outputs:
 %   QAOAhelperfcn - evaluation + gradient function for QAOA
-%   HamObj        - (O_k - lambda_k I)^2 objective Hamiltonian
+%   HamObj        - (n_k - t_k)^2 objective Hamiltonian
 %   HamA-D        - driver Hamiltonians
 %   EvolA-D       - corresponding evolution functions
 
-if nargin < 7
+if nargin < 4
     m_angles = n_angles;
 end
 
@@ -54,6 +56,7 @@ HamD = krondist(sx, L, n_vecs(:,1)) + ...
         krondist(sy, L, n_vecs(:,2)) + ...
         krondist(sz, L, n_vecs(:,3));
 EvolD = @(psi, delta) PauliRotations(L, delta, n_vecs, psi);
+
 
 
 % initial state
